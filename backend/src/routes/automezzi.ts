@@ -54,7 +54,9 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'automezzo non trovato' })
         }
 
-        return res.json(automezziRes[0])
+        const result = automezziRes[0]
+
+        return res.json(result[0])
     } catch (err) {
         console.error(err)
         return res.status(500).json({ error: 'error' })
@@ -86,7 +88,7 @@ router.post('/', async (req, res) => {
     } catch (err: any) {
         console.error(err)
         if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(400).json({ error: `codice ${codice} o targa ${targa} già esistenti, impossibile procedere con il salvataggio di questo automezzo` })
+            return res.status(409).json({ error: `codice ${codice} o targa ${targa} già esistenti, impossibile procedere con il salvataggio di questo automezzo` })
         }
         if (err.code === 'ER_NO_REFERENCED_ROW_2') {
             return res.status(400).json({ error: `id filiale ${filiale_id} non valido: non esiste una filiale con questo id` })

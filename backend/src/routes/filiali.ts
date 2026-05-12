@@ -77,7 +77,7 @@ router.post('/', async (req, res) => {
     } catch (err: any) {
         console.error(err)
         if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(400).json({ error: `il codice: ${codice} esiste già, impossibile procedere con il salvataggio di questa filiale` })
+            return res.status(409).json({ error: `il codice: ${codice} esiste già, impossibile procedere con il salvataggio di questa filiale` })
         }
         return res.status(500).json({ error: 'error' })
     }
