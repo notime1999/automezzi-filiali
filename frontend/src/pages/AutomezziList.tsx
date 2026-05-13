@@ -53,43 +53,45 @@ export default function AutomezziList() {
         }
     }
 
-    if (loading) return <p>Caricamento...</p>
-    if (error) return <p style={{ color: 'red' }}>Errore: {error}</p>
+    if (loading) return <p className="text-gray-600">Caricamento...</p>
+    if (error) return <p className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">Errore: {error}</p>
 
     return (
         <div>
-            <h2>Lista Automezzi</h2>
-            <div style={{ marginBottom: '10px' }}>
-                <Link to="/automezzi/new">Nuovo automezzo</Link>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Lista Automezzi</h2>
+                <Link to="/automezzi/new" className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition">Nuovo automezzo</Link>
+
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice</th>
-                        <th>Targa</th>
-                        <th>Marca</th>
-                        <th>Modello</th>
-                        <th>Filiale</th>
-                        <th>Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {automezzi.map(x => (
-                        <tr key={x.id}>
-                            <td>{x.codice}</td>
-                            <td>{x.targa}</td>
-                            <td>{x.marca}</td>
-                            <td>{x.modello}</td>
-                            <td>{x.filiale_codice} ({x.filiale_citta})</td>
-                            <td>
-                                <Link to={`/automezzi/${x.id}`}>Dettaglio</Link>
-                                {' | '}
-                                <button onClick={() => deleteAutomezzo(x.id)}>Elimina</button>
-                            </td>
+            <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                <table className="w-full text-left">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Codice</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Targa</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Marca</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Modello</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Filiale</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700 text-right">Azioni</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {automezzi.map(x => (
+                            <tr key={x.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                <td className="px-4 py-3 font-medium text-gray-900">{x.codice}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.targa}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.marca}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.modello}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.filiale_codice} ({x.filiale_citta})</td>
+                                <td className="px-4 py-3 text-right">
+                                    <Link to={`/automezzi/${x.id}`} className="text-blue-600 hover:text-blue-800 mr-4">Dettaglio</Link>
+                                    <button onClick={() => deleteAutomezzo(x.id)} className="text-red-600 hover:text-red-800">Elimina</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

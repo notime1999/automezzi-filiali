@@ -91,73 +91,77 @@ export default function AutomezzoForm() {
         }
     }
 
-    if (loadingFiliali) return <p>Caricamento filiali...</p>
+    if (loadingFiliali) return <p className="text-gray-600">Caricamento filiali...</p>
 
     return (
-        <div>
-            <Link to="/automezzi">Torna alla lista</Link>
-            <h2>Nuovo automezzo</h2>
+        <div className="max-w-2xl">
+            <Link to="/automezzi" className="text-blue-600 hover:text-blue-800 mb-4 inline-block">Torna alla lista</Link>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Nuovo automezzo</h2>
 
-            <form onSubmit={submit}>
-                <div style={{ marginBottom: '5px' }}>
-                    <label>
-                        Codice:{' '}
+            <form onSubmit={submit} className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 space-y-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Codice
                         <input
                             type="text"
                             value={codice}
                             onChange={e => setCodice(e.target.value)}
                             disabled={submitting}
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
                         />
                     </label>
-                    {errors.codice && <span style={{ color: 'red', marginLeft: '5px' }}>{errors.codice}</span>}
+                    {errors.codice && <p className="text-sm text-red-600 mt-1">{errors.codice}</p>}
                 </div>
 
-                <div style={{ marginBottom: '5px' }}>
-                    <label>
-                        Targa:{' '}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Targa
                         <input
                             type="text"
                             value={targa}
                             onChange={e => setTarga(e.target.value)}
                             disabled={submitting}
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
                         />
                     </label>
-                    {errors.targa && <span style={{ color: 'red', marginLeft: '5px' }}>{errors.targa}</span>}
+                    {errors.targa && <p className="text-sm text-red-600 mt-1">{errors.targa}</p>}
                 </div>
 
-                <div style={{ marginBottom: '5px' }}>
-                    <label>
-                        Marca:{' '}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Marca
                         <input
                             type="text"
                             value={marca}
                             onChange={e => setMarca(e.target.value)}
                             disabled={submitting}
-                        />
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100" />
                     </label>
-                    {errors.marca && <span style={{ color: 'red', marginLeft: '5px' }}>{errors.marca}</span>}
+                    {errors.marca && <p className="text-sm text-red-600 mt-1">{errors.marca}</p>}
                 </div>
 
-                <div style={{ marginBottom: '5px' }}>
-                    <label>
-                        Modello:{' '}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Modello
                         <input
                             type="text"
                             value={modello}
                             onChange={e => setModello(e.target.value)}
                             disabled={submitting}
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
                         />
                     </label>
-                    {errors.modello && <span style={{ color: 'red', marginLeft: '5px' }}>{errors.modello}</span>}
+                    {errors.modello && <p className="text-sm text-red-600 mt-1">{errors.modello}</p>}
                 </div>
 
-                <div style={{ marginBottom: '5px' }}>
-                    <label>
-                        Filiale:{' '}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Filiale
                         <select
                             value={filialeId}
                             onChange={e => setFilialeId(e.target.value)}
                             disabled={submitting}
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
                         >
                             <option value="">-- Seleziona una filiale --</option>
                             {filiali.map(f => (
@@ -167,14 +171,26 @@ export default function AutomezzoForm() {
                             ))}
                         </select>
                     </label>
-                    {errors.filiale_id && <span style={{ color: 'red', marginLeft: '5px' }}>{errors.filiale_id}</span>}
+                    {errors.filiale_id && <p className="text-sm text-red-600 mt-1">{errors.filiale_id}</p>}
                 </div>
 
-                <button type="submit" disabled={submitting}>
-                    {submitting ? 'Salvataggio...' : 'Crea automezzo'}
-                </button>
+                <div className="flex items-center gap-3 pt-2">
+                    <button
+                        type="submit"
+                        disabled={submitting}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-md transition disabled:bg-blue-300 disabled:cursor-not-allowed"
+                    >
+                        {submitting ? 'Salvataggio...' : 'Crea automezzo'}
+                    </button>
+                    <Link
+                        to="/automezzi"
+                        className="text-gray-600 hover:text-gray-800 font-medium"
+                    >
+                        Annulla
+                    </Link>
+                </div>
 
-                {submitError && <p style={{ color: 'red' }}>Errore: {submitError}</p>}
+                {submitError && <p className="text-sm text-red-600 bg-red-50 border border-red-200 p-3 rounded">Errore: {submitError}</p>}
             </form>
         </div>
     )

@@ -35,59 +35,63 @@ export default function FilialeDetail() {
             .finally(() => setLoading(false))
     }, [id])
 
-    if (loading) return <p>Caricamento...</p>
-    if (error) return <p style={{ color: 'red' }}>Errore: {error}</p>
-    if (!filiale) return <p>La filiale non è stata trovata</p>
+    if (loading) return <p className="text-gray-600">Caricamento...</p>
+    if (error) return <p className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">Errore: {error}</p>
+    if (!filiale) return <p className="text-gray-600">La filiale non è stata trovata</p>
 
     return (
         <div>
-            <Link to="/filiali">Torna alla lista delle filiali</Link>
+            <Link to="/filiali" className="text-blue-600 hover:text-blue-800 mb-4 inline-block">Torna alla lista delle filiali</Link>
 
-            <h2>Filiale - {filiale.codice}</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Filiale - {filiale.codice}</h2>
 
-            <dl>
-                <dt><strong>Codice:</strong></dt>
-                <dd>{filiale.codice}</dd>
+            <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6 mb-8">
+                <dl className="grid grid-cols-[150px_1fr] gap-y-3 gap-x-4">
+                    <dt className="font-semibold text-gray-700"><strong>Codice:</strong></dt>
+                    <dd className="text-gray-900">{filiale.codice}</dd>
 
-                <dt><strong>Indirizzo:</strong></dt>
-                <dd>{filiale.indirizzo}</dd>
+                    <dt className="font-semibold text-gray-700"><strong>Indirizzo:</strong></dt>
+                    <dd className="text-gray-900">{filiale.indirizzo}</dd>
 
-                <dt><strong>Città:</strong></dt>
-                <dd>{filiale.citta}</dd>
+                    <dt className="font-semibold text-gray-700"><strong>Città:</strong></dt>
+                    <dd className="text-gray-900">{filiale.citta}</dd>
 
-                <dt><strong>CAP:</strong></dt>
-                <dd>{filiale.cap}</dd>
-            </dl>
+                    <dt className="font-semibold text-gray-700"><strong>CAP:</strong></dt>
+                    <dd className="text-gray-900">{filiale.cap}</dd>
+                </dl>
+            </div>
 
-            <h3>Automezzi della filiale ({filiale.automezzi.length})</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Automezzi della filiale ({filiale.automezzi.length})</h3>
 
             {filiale.automezzi.length === 0 ? (
-                <p>Nessun automezzo associato a questa filiale.</p>
+                <p className="text-gray-600 italic">Nessun automezzo associato a questa filiale.</p>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Codice</th>
-                            <th>Targa</th>
-                            <th>Marca</th>
-                            <th>Modello</th>
-                            <th>Azioni</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filiale.automezzi.map(x => (
-                            <tr key={x.id}>
-                                <td>{x.codice}</td>
-                                <td>{x.targa}</td>
-                                <td>{x.marca}</td>
-                                <td>{x.modello}</td>
-                                <td>
-                                    <Link to={`/automezzi/${x.id}`}>Dettaglio</Link>
-                                </td>
+                <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                    <table className="w-full text-left">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th className="px-4 py-3 text-sm font-semibold text-gray-700">Codice</th>
+                                <th className="px-4 py-3 text-sm font-semibold text-gray-700">Targa</th>
+                                <th className="px-4 py-3 text-sm font-semibold text-gray-700">Marca</th>
+                                <th className="px-4 py-3 text-sm font-semibold text-gray-700">Modello</th>
+                                <th className="px-4 py-3 text-sm font-semibold text-gray-700 text-right">Azioni</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filiale.automezzi.map(x => (
+                                <tr key={x.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                    <td className="px-4 py-3 font-medium text-gray-900">{x.codice}</td>
+                                    <td className="px-4 py-3 text-gray-700">{x.targa}</td>
+                                    <td className="px-4 py-3 text-gray-700">{x.marca}</td>
+                                    <td className="px-4 py-3 text-gray-700">{x.modello}</td>
+                                    <td className="px-4 py-3 text-right">
+                                        <Link to={`/automezzi/${x.id}`} className="text-blue-600 hover:text-blue-800">Dettaglio</Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     )

@@ -27,9 +27,6 @@ export default function FilialiList() {
             .finally(() => setLoading(false))
     }, [])
 
-    if (loading) return <p>Caricamento...</p>
-    if (error) return <p style={{ color: 'red' }}>Errore: {error}</p>
-
     async function deleteFiliale(id: number) {
         if (!confirm('Sei sicuro di voler eliminare questa filiale?')) {
             return
@@ -60,38 +57,42 @@ export default function FilialiList() {
         }
     }
 
+    if (loading) return <p className="text-gray-600">Caricamento...</p>
+    if (error) return <p className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">Errore: {error}</p>
+
     return (
         <div>
-            <h2>Lista Filiali</h2>
-            <div style={{ marginBottom: '10px' }}>
-                <Link to="/filiali/new">Nuova filiale</Link>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Lista Filiali</h2>
+                <Link to="/filiali/new" className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition">Nuova filiale</Link>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice</th>
-                        <th>Indirizzo</th>
-                        <th>Città</th>
-                        <th>CAP</th>
-                        <th>Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filiali.map(x => (
-                        <tr key={x.id}>
-                            <td>{x.codice}</td>
-                            <td>{x.indirizzo}</td>
-                            <td>{x.citta}</td>
-                            <td>{x.cap}</td>
-                            <td>
-                                <Link to={`/filiali/${x.id}`}>Dettaglio</Link>
-                                {' | '}
-                                <button onClick={() => deleteFiliale(x.id)}>Elimina</button>
-                            </td>
+            <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                <table className="w-full text-left">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Codice</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Indirizzo</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">Città</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700">CAP</th>
+                            <th className="px-4 py-3 text-sm font-semibold text-gray-700 text-right">Azioni</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filiali.map(x => (
+                            <tr key={x.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                <td className="px-4 py-3 font-medium text-gray-900">{x.codice}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.indirizzo}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.citta}</td>
+                                <td className="px-4 py-3 text-gray-700">{x.cap}</td>
+                                <td className="px-4 py-3 text-right">
+                                    <Link to={`/filiali/${x.id}`} className="text-blue-600 hover:text-blue-800 mr-4">Dettaglio</Link>
+                                    <button onClick={() => deleteFiliale(x.id)} className="text-red-600 hover:text-red-800">Elimina</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

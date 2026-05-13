@@ -1,6 +1,6 @@
 INSERT IGNORE INTO filiale (codice, indirizzo, citta, cap) VALUES
-  ('FIL-MI', 'Via di milano', 'Milano', '21231'),
-  ('FIL-RM', 'Piazza spagna', 'Roma', '16556'),
+  ('FIL-MI', 'Via di milano 12', 'Milano', '21231'),
+  ('FIL-RM', 'Piazza spagna 15', 'Roma', '16556'),
   ('FIL-TO', 'Via ciccio 5', 'Torino', '15624');
 
 INSERT IGNORE INTO automezzo (codice, targa, marca, modello, filiale_id) VALUES
