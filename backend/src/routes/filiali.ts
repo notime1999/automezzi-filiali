@@ -113,4 +113,36 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+router.post('/upload', async (req, res) => {
+    const email = process.env.EDOO_EMAIL
+    if (!email) {
+        throw new Error('EDOO_EMAIL non è definita nelle variabili env')
+    }
+
+    try {
+        const data = await pool.execute(
+            'SELECT codice, indirizzo, citta, cap FROM filiale ORDER BY codice'
+        )
+
+        const url = `https://edoo.poweringsrl.it/exercises/Filiale/upload.json`
+
+        console.log(data[0])
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, data: data[0] }),
+        })
+
+        const edooRes = await response.json();
+        const edooMessageRes = edooRes['message'];
+
+        return res.status(200).json({ edooMessageRes })
+
+    } catch (err: any) {
+        console.error(err)
+        return res.status(500).json({ error: 'error' })
+    }
+})
+
 export default router

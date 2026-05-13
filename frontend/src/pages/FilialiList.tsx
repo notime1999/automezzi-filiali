@@ -15,6 +15,8 @@ export default function FilialiList() {
     const [filiali, setFiliali] = useState<Filiale[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [uploading, setUploading] = useState(false)
+    const [uploadResult, setUploadResult] = useState<string | null>(null)
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL}/api/filiali`)
@@ -57,6 +59,26 @@ export default function FilialiList() {
         }
     }
 
+    async function edooUpload() {
+        setUploading(true)
+        setUploadResult(null)
+
+        try {
+            await fetch(`${import.meta.env.VITE_API_URL}/api/filiali/upload`, {
+                method: 'POST',
+            }).then(res => {
+                if (!res.ok) throw new Error(`Errore durante l'upload delle filiali`)
+                return res.json()
+            }).then(data => setUploadResult(data.edooMessageRes))
+                .catch(err => setError(err.message))
+                .finally(() => setUploading(false))
+
+        } catch (err: any) {
+            console.log("Errore ---> ", err)
+            alert(`Errore durante l'upload`)
+        }
+    }
+
     if (loading) return <p className="text-gray-600">Caricamento...</p>
     if (error) return <p className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">Errore: {error}</p>
 
@@ -64,9 +86,21 @@ export default function FilialiList() {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Lista Filiali</h2>
+                <button
+                    onClick={edooUpload}
+                    disabled={uploading}
+                    className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-md transition disabled:bg-green-300 disabled:cursor-not-allowed"
+                >
+                    {uploading ? 'Caricamento...' : 'Carica su edoo'}
+                </button>
                 <Link to="/filiali/new" className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition">Nuova filiale</Link>
             </div>
-            <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+            <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200 px-4 py-2">
+                {uploadResult && (
+                    <div className={`mb-4 p-3 rounded-md border bg-blue-50 border-green-200 text-green-800`}>
+                        {uploadResult}
+                    </div>
+                )}
                 <table className="w-full text-left">
                     <thead className="bg-gray-50 border-b border-gray-200">
                         <tr>
